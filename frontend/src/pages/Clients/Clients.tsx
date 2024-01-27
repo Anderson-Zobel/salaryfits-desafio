@@ -1,19 +1,39 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     Avatar,
     Box,
     Card,
     CardContent,
     CardHeader,
-    Divider, Table, TableContainer, Typography,
+    Table,
+    TableContainer,
+    Typography,
     useMediaQuery
 } from "@mui/material";
 import {Person} from "@mui/icons-material";
 import ClientTableHead from "../../components/ClientTableHead";
-
-
+import {api} from "../../services/Api";
 
 const Clients: React.FC = () => {
+    const [clients, setClients] = useState([])
+
+
+    useEffect(function whenPageLoad(){
+        fetchClientsData()
+    },[])
+
+
+    async function fetchClientsData() {
+        try {
+            const response = await api.get('/clients');
+            setClients(response.data);
+            console.log(response)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
 const sizeMatch = useMediaQuery('@media (min-width:700px)')
     return (
         <>

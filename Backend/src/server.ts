@@ -1,8 +1,9 @@
 import Fastify from 'fastify';
 import { routes } from './routes'
-import cors from '@fastify/cors';
+import fastifyCors from '@fastify/cors';
 
 const app = Fastify({ logger: true })
+app.register(fastifyCors);
 
 app.setErrorHandler((error, request, reply) => {
     reply.code(400).send({ message: error.message })
