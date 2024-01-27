@@ -5,30 +5,32 @@ interface DeleteClientProps{
 }
 
 class DeleteClientService {
-    async execute({ id }: DeleteClientProps){
-
-        if(!id){
-            throw new Error("Ocorreu um erro")
+    async execute({ id }: DeleteClientProps) {
+        if (!id) {
+            throw new Error("Ocorreu um erro");
         }
 
-        const findClient = await prisma.client.findFirst({
-            where: {
-                id: id
-            }
-        })
+        await prisma.$transaction([
+            prisma.scheduling.deleteMany({
+                where: {
+                    client_id: id,
+                },
+            }),
 
-        if(!findClient) {
-            throw new Error('Cliente não encontrado')
-        }
+            prisma.pet.deleteMany({
+                where: {
+                    client_id: id,
+                },
+            }),
 
-        await prisma.client.delete({
-            where: {
-                id: findClient.id
-            }
-        })
+            prisma.client.delete({
+                where: {
+                    id: id,
+                },
+            }),
+        ]);
 
-        return { message: 'Cliente Deletado'}
-
+        return { message: "Cliente Deletado" };
     }
 }
 

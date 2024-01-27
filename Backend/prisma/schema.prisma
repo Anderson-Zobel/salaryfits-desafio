@@ -39,10 +39,10 @@ model Pet {
 model Scheduling {
   id           Int       @id @default(autoincrement())
   status       String    @default("open")
-  client       Client    @relation("client_schedulings", fields: [client_id], references: [id])
-  client_id    Int
-  pet          Pet       @relation("pet_schedulings", fields: [pet_id], references: [id])
-  pet_id       Int
+  client       Client?    @relation("client_schedulings", fields: [client_id], references: [id])
+  client_id    Int?
+  pet          Pet?      @relation("pet_schedulings", fields: [pet_id], references: [id])
+  pet_id       Int?
   scheduled_at DateTime
   created_at   DateTime? @default(now())
   updated_at   DateTime? @default(now())
