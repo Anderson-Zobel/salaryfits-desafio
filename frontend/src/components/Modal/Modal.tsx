@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, Dispatch, SetStateAction } from "react";
+import React, { ReactNode, Dispatch, SetStateAction } from "react";
 import {
     Box,
     Button,
@@ -12,10 +12,10 @@ import ModalTitle from "./ModalTitle";
 
 interface ModalProps {
     open?: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
+    setOpen?: Dispatch<SetStateAction<boolean>>;
     title?: string;
     subtitle?: string;
-    question: string;
+    question?: string;
     onClickConfirm?: () => void;
     onClickCancel?: () => void;
     dialogContent?: ReactNode;
@@ -28,32 +28,34 @@ interface ModalProps {
     actionMenu?: ReactNode;
 }
 
-const Modal: FC<ModalProps> = ({
-           open,
-           setOpen,
-           title,
-           subtitle,
-           question,
-           onClickConfirm,
-           onClickCancel,
-           dialogContent,
-           confirmText,
-           cancelText,
-           titleIcon,
-           disabled,
-           removeConfirm,
-           styles,
-           actionMenu,
-       }) => {
+const Modal: React.FC<ModalProps> = ({
+        open,
+        setOpen,
+        title,
+        subtitle,
+        question,
+        onClickConfirm,
+        onClickCancel,
+        dialogContent,
+        confirmText,
+        cancelText,
+        titleIcon,
+        disabled,
+        removeConfirm,
+        styles,
+        actionMenu,
+    }) => {
+
     const sizeMatch = useMediaQuery("@media (min-width:600px)");
 
     return (
         <Dialog
             fullScreen={!sizeMatch}
-            sx={
-                { "& .MuiDialog-paper": { width: "100%", maxWidth: "600px", ...styles }}}
+            sx={{
+                "& .MuiDialog-paper": { width: "100%", maxWidth: "600px", ...styles },
+            }}
             open={open ?? false}
-            onClose={(event, reason) => {
+            onClose={(reason) => {
                 if (reason === "backdropClick") {
                     return;
                 }
@@ -80,10 +82,7 @@ const Modal: FC<ModalProps> = ({
                 }}
             >
                 {!onClickCancel ? (
-                    <Button
-                        sx={{ p: 0 }}
-                        onClick={() => (setOpen(false))}
-                    >
+                    <Button sx={{ p: 0 }} onClick={() => setOpen && setOpen(false)}>
                         {cancelText ?? "Cancelar"}
                     </Button>
                 ) : (

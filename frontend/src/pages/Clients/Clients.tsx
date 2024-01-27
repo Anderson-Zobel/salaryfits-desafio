@@ -1,22 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     Avatar,
-    Box, Button,
+    Box,
+    Button,
     Card,
     CardContent,
-    CardHeader, IconButton,
+    CardHeader,
+    IconButton,
     Table,
-    TableContainer, TextField,
+    TableContainer,
+    TextField,
     Typography,
 } from "@mui/material";
-import {Delete, Edit, Person} from "@mui/icons-material";
+import { Delete, Edit, Person } from "@mui/icons-material";
 import ClientTableHead from "../../components/ClientTableHead";
-import {api} from "../../services/Api";
+import { api } from "../../services/Api";
 import ClientTableBody from "../../components/ClientTableBody";
 import Modal from "../../components/Modal/Modal";
 import LabelValueText from "../../components/LabelValueText";
 
-interface ClientsProps{
+interface ClientsProps {
     id: number;
     name: string;
     email: string;
@@ -26,48 +29,56 @@ interface ClientsProps{
     updated_at: string;
 }
 
-interface ClientCreateProps{
-    name?: string | undefined;
+interface ClientCreateProps {
+    name?: string;
     email?: string;
     phone?: string;
 }
 
-interface ClientUpdateProps{
+interface ClientUpdateProps {
     id: number;
-    name?: string | undefined;
+    name?: string;
     email?: string;
     phone?: string;
-    pets?: []
+    pets?: [];
 }
 
-
+interface PetProps{
+    id: number;
+    name: string;
+    type: string;
+    client_id: number;
+    created_at: string;
+    updated_at: string;
+}
 
 const Clients: React.FC = () => {
-    const [clients, setClients] = useState<ClientsProps[]>([])
-    const [selectedClient, setSelectedClient] = useState(null)
+    const [clients, setClients] = useState<ClientsProps[]>([]);
+    const [selectedClient, setSelectedClient] = useState<ClientsProps | null>(null);
     const [clientCreate, setClientCreate] = useState<ClientCreateProps>({
         name: "",
         email: "",
         phone: "",
-    })
+    });
     const [clientUpdate, setClientUpdate] = useState<ClientUpdateProps>({
-        id: selectedClient?.id,
+        id: selectedClient?.id || 0,
         name: "",
         email: "",
         phone: "",
-        pets: []
-    })
-    const [edit, setEdit] = useState(false)
-    const [openCreate, setOpenCreate] = useState(false)
-    const [openDetail, setOpenDetail] = useState(false)
-    const [openDelete, setOpenDelete] = useState(false)
-    const [isButtonDisabled, setButtonDisabled] = useState(true)
+        pets: [],
+    });
+    const [edit, setEdit] = useState(false);
+    const [openCreate, setOpenCreate] = useState(false);
+    const [openDetail, setOpenDetail] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [isButtonDisabled, setButtonDisabled] = useState(true);
 
+    function noPets(){
+        if (clientUpdate?.pets?.length !== undefined && clientUpdate.pets.length < 1){
+            return"Cliente sem pet cadastrado"
+        }
 
-
-
-    console.log(clientUpdate)
-
+    }
 
     async function fetchClientsData() {
         try {
@@ -81,23 +92,19 @@ const Clients: React.FC = () => {
     async function createClient() {
         try {
             await api.post('/client', clientCreate);
-            fetchClientsData()
-            setEdit(false)
-            setOpenCreate(false)
-
+            fetchClientsData();
+            setEdit(false);
+            setOpenCreate(false);
         } catch (error) {
             console.error(error);
         }
     }
 
-
     async function updateClient() {
         try {
             await api.put('/client', clientUpdate);
-            fetchClientsData()
-            setEdit(false)
-            selectedClient(null)
-
+            fetchClientsData();
+            setEdit(false);
         } catch (error) {
             console.error(error);
         }
@@ -105,14 +112,11 @@ const Clients: React.FC = () => {
 
     async function deleteClient() {
         try {
-            await api.delete('/client', {params: { id: selectedClient?.id }});
-            fetchClientsData()
-            setOpenDetail(false)
-            setOpenDelete(false)
-
-            setEdit(false)
-
-
+            await api.delete('/client', { params: { id: selectedClient?.id } });
+            fetchClientsData();
+            setOpenDetail(false);
+            setOpenDelete(false);
+            setEdit(false);
         } catch (error) {
             console.error(error);
         }
@@ -123,16 +127,14 @@ const Clients: React.FC = () => {
         setButtonDisabled(!allFieldsFilled);
     }, [clientCreate]);
 
-    useEffect(function whenPageLoad(){
-        fetchClientsData()
-    },[])
+    useEffect(() => {
+        fetchClientsData();
+    }, []);
 
-    useEffect(function whenSelectClient(){
-        const client = selectedClient?.id && clients?.find(e => e.id === selectedClient.id)
-        setClientUpdate(client)
-    },[selectedClient, clients])
-
-
+    useEffect(() => {
+        const client = selectedClient?.id && clients?.find((e) => e.id === selectedClient.id);
+        setClientUpdate(client || {} as ClientUpdateProps);
+    }, [selectedClient, clients]);
 
 
     return (
@@ -154,23 +156,23 @@ const Clients: React.FC = () => {
                     <CardHeader
                         avatar={<Avatar sx={{ bgcolor: '#8AA9C1' }}><Person /></Avatar>}
                         title={
-                        <Typography
-                            variant={'h5'}
-                            sx={{
-                                display: 'flex',
-                                fontWeight: '400'
-                            }}
-                        >
-                            Clientes
-                        </Typography>
+                            <Typography
+                                variant={'h5'}
+                                sx={{
+                                    display: 'flex',
+                                    fontWeight: '400',
+                                }}
+                            >
+                                Clientes
+                            </Typography>
                         }
                         action={
-                        <Button
-                            variant={'contained'}
-                            onClick={() =>  setOpenCreate(true)}
-                        >
-                            Cadastrar
-                        </Button>
+                            <Button
+                                variant={'contained'}
+                                onClick={() => setOpenCreate(true)}
+                            >
+                                Cadastrar
+                            </Button>
                         }
                     />
                     <CardContent
@@ -182,22 +184,18 @@ const Clients: React.FC = () => {
                             alignItems: 'center',
                         }}
                     >
-                            <TableContainer>
-                                <Table>
-                                    <ClientTableHead />
-                                    <ClientTableBody
-                                        selectedClient={selectedClient}
-                                        setSelectedClient={setSelectedClient}
-                                        openDetail={openDetail}
-                                        setOpenDetail={setOpenDetail}
-                                        openDelete={openDelete}
-                                        setOpenDelete={setOpenDelete}
-                                        clients={clients}
-                                    />
-                                </Table>
-                            </TableContainer>
+                        <TableContainer>
+                            <Table>
+                                <ClientTableHead />
+                                <ClientTableBody
+                                    setSelectedClient={setSelectedClient}
+                                    setOpenDetail={setOpenDetail}
+                                    setOpenDelete={setOpenDelete}
+                                    clients={clients}
+                                />
+                            </Table>
+                        </TableContainer>
                     </CardContent>
-
                 </Card>
                 <Modal
                     title={clientUpdate?.name ?? ''}
@@ -206,152 +204,130 @@ const Clients: React.FC = () => {
                     removeConfirm
                     cancelText={'Fechar'}
                     onClickCancel={() => {
-                        setOpenDetail(false)
-                        fetchClientsData()
-                        setEdit(false)
+                        setOpenDetail(false);
+                        fetchClientsData();
+                        setEdit(false);
                     }}
-                    styles={{ p: '1rem'}}
+                    styles={{ p: '1rem' }}
                     actionMenu={
                         <>
-                            {!edit ?
+                            {!edit ? (
                                 <Box>
                                     <IconButton
                                         onClick={() => {
-                                            setEdit(true)
-                                            }
-                                        }
+                                            setEdit(true);
+                                        }}
                                     >
-                                        <Edit/>
+                                        <Edit />
                                     </IconButton>
                                     <IconButton
                                         onClick={() => setOpenDelete(true)}
                                     >
-                                        <Delete/>
+                                        <Delete />
                                     </IconButton>
                                 </Box>
-                                :
+                            ) : (
                                 <Box>
                                     <Button
                                         variant={'contained'}
                                         onClick={() => {
-                                            updateClient()
-                                            }
-                                        }
+                                            updateClient();
+                                        }}
                                     >
                                         Salvar
                                     </Button>
                                     <Button
                                         onClick={() => {
-                                            fetchClientsData()
-                                            setEdit(false)
-                                            selectedClient(null)
+                                            fetchClientsData();
+                                            setEdit(false);
+                                            setSelectedClient(null);
                                         }}
                                     >
                                         Cancelar
                                     </Button>
                                 </Box>
-                            }
+                            )}
                         </>
                     }
                     dialogContent={
-                    <>
-                        {edit ?
-                          <Box
-                          sx={{
-                              display: 'flex',
-                              flexDirection: 'column'
-                          }}>
-                        <TextField
-                          label={'Nome'}
-                          required
-                          fullwidth
-                          size={'small'}
-                          value={clientUpdate?.name}
-                          onChange={(e) => setClientUpdate(prevState => ({...prevState, name: e.target.value }))}
-                          sx={{
-                            mb: '1rem'
-                          }}
-                        />
-                        <TextField
-                            label={'E-mail'}
-                            required
-                            fullwidth
-                            size={'small'}
-                            value={clientUpdate?.email}
-                            onChange={(e) => setClientUpdate(prevState => ({...prevState, name: e.target.value }))}
-                            sx={{
-                                mb: '1rem'
-                            }}
-                        />
-                        <TextField
-                            label={'Telefone'}
-                            required
-                            fullwidth
-                            size={'small'}
-                            value={clientUpdate?.phone}
-                            onChange={(e) => setClientUpdate(prevState => ({...prevState, name: e.target.value }))}
-                            sx={{
-                                mb: '1rem'
-                            }}
-                        />
-                        </Box>
-                        :
                         <>
-                            <LabelValueText
-                            label={"E-mail"}
-                            value={clientUpdate?.email}
-                            />
-                            <LabelValueText
-                                label={"Telefone"}
-                                value={clientUpdate?.phone}
-                            />
-                            <LabelValueText
-                                label={"Pets"}
-                                value={clientUpdate?.pets?.length < 1 && 'Cliente sem pet cadastrado'}
-                            />
-
-                                {clientUpdate?.pets?.map((pet, index) => (
-                                    <Box
+                            {edit ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
+                                    <TextField
+                                        label={'Nome'}
+                                        required={true}
+                                        fullWidth={true}
+                                        size={'small'}
+                                        value={clientUpdate?.name ?? ''}
+                                        onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, name: e.target.value }))}
                                         sx={{
-                                            backgroundColor: '#F3EFEF',
-                                            borderRadius: '1rem',
-                                            p: '0.7rem',
-                                            mb: '1rem '
-
+                                            mb: '1rem',
                                         }}
-                                        key={index}
+                                    />
+                                    <TextField
+                                        label={'E-mail'}
+                                        required={true}
+                                        fullWidth={true}
+                                        size={'small'}
+                                        value={clientUpdate?.email ?? ''}
+                                        onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, email: e.target.value }))}
+                                        sx={{
+                                            mb: '1rem',
+                                        }}
+                                    />
+                                    <TextField
+                                        label={'Telefone'}
+                                        required={true}
+                                        fullWidth={true}
+                                        size={'small'}
+                                        value={clientUpdate?.phone ?? ''}
+                                        onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, phone: e.target.value }))}
+                                        sx={{
+                                            mb: '1rem',
+                                        }}
+                                    />
+                                </Box>
+                            ) : (
+                                <>
+                                    <LabelValueText label={"E-mail"} value={clientUpdate?.email} />
+                                    <LabelValueText label={"Telefone"} value={clientUpdate?.phone} />
+                                    <LabelValueText
+                                        label={"Pets"}
+                                        value={noPets()}
+                                    />
+
+                                    {clientUpdate?.pets?.map((pet: PetProps, index: number) => (
+                                        <Box
+                                            sx={{
+                                                backgroundColor: '#F3EFEF',
+                                                borderRadius: '1rem',
+                                                p: '0.7rem',
+                                                mb: '1rem ',
+                                            }}
+                                            key={index}
+                                        >
+                                            <LabelValueText label={'Nome'} value={pet?.name ?? ''} mb={'0'} />
+                                            <LabelValueText label={'Tipo'} value={pet?.type ?? ''} mb={'0'} />
+                                        </Box>
+                                    ))}
+                                    <Button
+                                        sx={{
+                                            width: '100%',
+                                        }}
+                                        variant={'outlined'}
                                     >
-                                        <LabelValueText
-                                            label={'Nome'}
-                                            value={pet.name}
-                                            mb={'0'}
-                                        />
-                                        <LabelValueText
-                                            label={'Tipo'}
-                                            value={pet.type}
-                                            mb={'0'}
-
-                                        />
-                                    </Box>
-                                ))}
-                            <Button
-                                sx={{
-                                    width: '100%'
-                                }}
-                                variant={'outlined'}
-                            >
-                                Cadastrar Pet
-                            </Button>
-
+                                        Cadastrar Pet
+                                    </Button>
+                                </>
+                            )}
                         </>
-
-                        }
-                    </>
-
                     }
                 />
-
-
             </Box>
             <Modal
                 title={'Cadastrar Cliente'}
@@ -359,50 +335,51 @@ const Clients: React.FC = () => {
                 titleIcon={<Person />}
                 disabled={isButtonDisabled}
                 confirmText={'Cadastrar'}
-                onClickConfirm={ () => createClient()}
+                onClickConfirm={() => createClient()}
                 cancelText={'Fechar'}
                 onClickCancel={() => {
-                    setOpenCreate(false)
-                    setEdit(false)
+                    setOpenCreate(false);
+                    setEdit(false);
                 }}
-                styles={{ p: '1rem'}}
+                styles={{ p: '1rem' }}
                 dialogContent={
                     <Box
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column'
-                        }}>
+                            flexDirection: 'column',
+                        }}
+                    >
                         <TextField
                             label={'Nome'}
-                            required
-                            fullwidth
+                            required={true}
+                            fullWidth={true}
                             size={'small'}
-                            value={clientCreate?.name}
-                            onChange={(e) => setClientCreate(prevState => ({...prevState, name: e.target.value}))}
+                            value={clientCreate?.name ?? ''}
+                            onChange={(e) => setClientCreate((prevState) => ({ ...prevState, name: e.target.value }))}
                             sx={{
-                                mb: '1rem'
+                                mb: '1rem',
                             }}
                         />
                         <TextField
                             label={'E-mail'}
-                            required
-                            fullwidth
+                            required={true}
+                            fullWidth={true}
                             size={'small'}
-                            value={clientCreate?.email}
-                            onChange={(e) => setClientCreate(prevState => ({...prevState, email: e.target.value}))}
+                            value={clientCreate?.email ?? ''}
+                            onChange={(e) => setClientCreate((prevState) => ({ ...prevState, email: e.target.value }))}
                             sx={{
-                                mb: '1rem'
+                                mb: '1rem',
                             }}
                         />
                         <TextField
                             label={'Telefone'}
-                            required
-                            fullwidth
+                            required={true}
+                            fullWidth={true}
                             size={'small'}
-                            value={clientCreate?.phone}
-                            onChange={(e) => setClientCreate(prevState => ({...prevState, phone: e.target.value}))}
+                            value={clientCreate?.phone ?? ''}
+                            onChange={(e) => setClientCreate((prevState) => ({ ...prevState, phone: e.target.value }))}
                             sx={{
-                                mb: '1rem'
+                                mb: '1rem',
                             }}
                         />
                     </Box>

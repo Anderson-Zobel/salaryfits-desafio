@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Avatar, Box, Divider, Typography, DialogTitle } from "@mui/material";
 import { PriorityHigh } from "@mui/icons-material";
 
@@ -10,15 +10,13 @@ interface ModalTitleProps {
     actionMenu?: ReactNode;
 }
 
-const ModalTitle: FC<ModalTitleProps> = (
-    {
-     title,
-     subtitle,
-     styles,
-     avatarIcon,
-     actionMenu,
-    }) => {
-
+const ModalTitle: React.FC<ModalTitleProps> = ({
+                                             title,
+                                             subtitle,
+                                             styles,
+                                             avatarIcon,
+                                             actionMenu,
+                                         }) => {
     return (
         <>
             <DialogTitle
@@ -50,7 +48,7 @@ const ModalTitle: FC<ModalTitleProps> = (
                     <Typography variant={"h6"}>{title}</Typography>
 
                     {subtitle && (
-                        <Typography variant={"10px"}>{subtitle}</Typography>
+                        <Typography variant={"body2"}>{subtitle}</Typography>
                     )}
                 </Box>
 
