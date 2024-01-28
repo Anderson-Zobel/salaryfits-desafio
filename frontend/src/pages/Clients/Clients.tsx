@@ -20,40 +20,10 @@ import Modal from "../../components/Modal/Modal";
 import LabelValueText from "../../components/LabelValueText";
 import {useGlobalContext} from "../../contexts/GlobalContext";
 import { useNavigate } from 'react-router-dom';
+import { ClientsProps, ClientCreateProps, ClientUpdateProps, PetsProps } from "../../types/types";
 
 
-interface ClientsProps {
-    id: number;
-    name: string;
-    email: string;
-    pets: [];
-    phone: string;
-    created_at: string;
-    updated_at: string;
-}
 
-interface ClientCreateProps {
-    name?: string;
-    email?: string;
-    phone?: string;
-}
-
-interface ClientUpdateProps {
-    id: number;
-    name?: string;
-    email?: string;
-    phone?: string;
-    pets?: [];
-}
-
-interface PetProps{
-    id: number;
-    name: string;
-    type: string;
-    client_id: number;
-    created_at: string;
-    updated_at: string;
-}
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
@@ -143,7 +113,7 @@ const Clients: React.FC = () => {
 
     useEffect(() => {
         const client = selectedClient?.id && clients?.find((e) => e.id === selectedClient.id);
-        setClientUpdate(client || {} as ClientUpdateProps);
+        setClientUpdate(client as ClientUpdateProps);
     }, [selectedClient, clients]);
 
 
@@ -271,7 +241,7 @@ const Clients: React.FC = () => {
                                         required={true}
                                         fullWidth={true}
                                         size={'small'}
-                                        value={clientUpdate?.name ?? ''}
+                                        value={clientUpdate?.name}
                                         onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, name: e.target.value }))}
                                         sx={{
                                             mb: '1rem',
@@ -282,7 +252,7 @@ const Clients: React.FC = () => {
                                         required={true}
                                         fullWidth={true}
                                         size={'small'}
-                                        value={clientUpdate?.email ?? ''}
+                                        value={clientUpdate?.email}
                                         onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, email: e.target.value }))}
                                         sx={{
                                             mb: '1rem',
@@ -293,7 +263,7 @@ const Clients: React.FC = () => {
                                         required={true}
                                         fullWidth={true}
                                         size={'small'}
-                                        value={clientUpdate?.phone ?? ''}
+                                        value={clientUpdate?.phone}
                                         onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, phone: e.target.value }))}
                                         sx={{
                                             mb: '1rem',
@@ -309,7 +279,7 @@ const Clients: React.FC = () => {
                                         value={noPets()}
                                     />
 
-                                    {clientUpdate?.pets?.map((pet: PetProps, index: number) => (
+                                    {clientUpdate?.pets?.map((pet: PetsProps, index: number) => (
                                         <Box
                                             sx={{
                                                 backgroundColor: '#F3EFEF',

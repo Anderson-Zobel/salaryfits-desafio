@@ -10,40 +10,14 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
-
-interface ClientsProps {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    created_at: string;
-    updated_at: string;
-    pets?: [];
-}
-
-interface PetsProps {
-    id: number;
-    name: string;
-    type: string;
-    client_id: number;
-    created_at: string;
-    updated_at: string;
-    client?: ClientsProps;
-}
-
-interface PetTableBodyProps {
-    setSelectedPet: React.Dispatch<React.SetStateAction<PetsProps | null>>;
-    setOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
-    pets: PetsProps[];
-}
+import { PetsProps, PetTableBodyProps } from "../types/types";
 
 const ClientTableBody: React.FC<PetTableBodyProps> = ({
-                                                             setSelectedPet,
-                                                             setOpenDetail,
-                                                             setOpenDelete,
-                                                             pets,
-                                                         }) => {
+         setSelectedPet,
+         setOpenDetail,
+         setOpenDelete,
+         pets,
+     }) => {
 
     const [open, setOpen] = useState<number | null>(null);
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);

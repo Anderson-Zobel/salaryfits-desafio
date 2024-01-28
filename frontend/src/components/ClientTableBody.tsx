@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
     IconButton,
     ListItemIcon,
@@ -8,25 +9,8 @@ import {
     TableRow,
     Menu,
 } from "@mui/material";
-import React, { useState } from "react";
 import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
-
-interface ClientsProps {
-    id: number,
-    name: string;
-    email: string;
-    pets: [];
-    phone: string;
-    created_at: string;
-    updated_at: string;
-}
-
-interface ClientTableBodyProps {
-    setSelectedClient: React.Dispatch<React.SetStateAction<ClientsProps | null>>;
-    setOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
-    clients: ClientsProps[];
-}
+import { ClientTableBodyProps, ClientsProps} from "../types/types"
 
 const ClientTableBody: React.FC<ClientTableBodyProps> = ({
      setSelectedClient,

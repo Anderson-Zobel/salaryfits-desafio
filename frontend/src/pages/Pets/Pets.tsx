@@ -20,40 +20,8 @@ import PetTableHead from "../../components/PetTableHead";
 import PetTableBody from "../../components/PetTableBody";
 import {useGlobalContext} from "../../contexts/GlobalContext";
 import { useNavigate } from 'react-router-dom';
+import { PetsProps, PetCreateProps, PetUpdateProps, ClientsProps } from "../../types/types"
 
-interface ClientsProps {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    created_at: string;
-    updated_at: string;
-    pets?: [];
-}
-
-interface PetsProps {
-    id: number;
-    name: string;
-    type: string;
-    client_id: number;
-    created_at: string;
-    updated_at: string;
-    client?: ClientsProps;
-}
-
-interface PetCreateProps {
-    name: string;
-    type: string;
-    client_id?: number;
-}
-
-interface PetUpdateProps {
-    id: number;
-    name?: string;
-    type?: string;
-    client_id?: number;
-    client?: ClientsProps;
-}
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
