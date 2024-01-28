@@ -18,6 +18,8 @@ const ClientTableHead: React.FC = () => {
                 <TableCell>
                     Telefone
                 </TableCell>
+                <TableCell>
+                </TableCell>
             </TableRow>
         </TableHead>
     )

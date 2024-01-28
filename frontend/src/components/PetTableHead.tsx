@@ -18,6 +18,8 @@ const PetTableHead: React.FC = () => {
                 <TableCell>
                     Cliente
                 </TableCell>
+                <TableCell>
+                </TableCell>
             </TableRow>
         </TableHead>
     )
