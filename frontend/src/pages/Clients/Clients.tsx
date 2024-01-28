@@ -18,6 +18,9 @@ import { api } from "../../services/Api";
 import ClientTableBody from "../../components/ClientTableBody";
 import Modal from "../../components/Modal/Modal";
 import LabelValueText from "../../components/LabelValueText";
+import {useGlobalContext} from "../../contexts/GlobalContext";
+import { useNavigate } from 'react-router-dom';
+
 
 interface ClientsProps {
     id: number;
@@ -53,13 +56,18 @@ interface PetProps{
 }
 
 const Clients: React.FC = () => {
-    const [clients, setClients] = useState<ClientsProps[]>([]);
-    const [selectedClient, setSelectedClient] = useState<ClientsProps | null>(null);
-    const [clientCreate, setClientCreate] = useState<ClientCreateProps>({
+    const navigate = useNavigate()
+    const { trigger, setTrigger } = useGlobalContext();
+
+    const createInitialState = {
         name: "",
         email: "",
         phone: "",
-    });
+    }
+
+    const [clients, setClients] = useState<ClientsProps[]>([]);
+    const [selectedClient, setSelectedClient] = useState<ClientsProps | null>(null);
+    const [clientCreate, setClientCreate] = useState<ClientCreateProps>(createInitialState);
     const [clientUpdate, setClientUpdate] = useState<ClientUpdateProps>({
         id: selectedClient?.id || 0,
         name: "",
@@ -95,6 +103,8 @@ const Clients: React.FC = () => {
             fetchClientsData();
             setEdit(false);
             setOpenCreate(false);
+            setClientCreate(createInitialState)
+            setTrigger(prevState => ({...prevState, createClient: false}))
         } catch (error) {
             console.error(error);
         }
@@ -123,7 +133,7 @@ const Clients: React.FC = () => {
     }
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(clientCreate).every((value) => value.trim() !== "");
+        const allFieldsFilled = Object.values(clientCreate).every((value) => value?.trim() !== "");
         setButtonDisabled(!allFieldsFilled);
     }, [clientCreate]);
 
@@ -205,7 +215,6 @@ const Clients: React.FC = () => {
                     cancelText={'Fechar'}
                     onClickCancel={() => {
                         setOpenDetail(false);
-                        fetchClientsData();
                         setEdit(false);
                     }}
                     styles={{ p: '1rem' }}
@@ -240,7 +249,6 @@ const Clients: React.FC = () => {
                                         onClick={() => {
                                             fetchClientsData();
                                             setEdit(false);
-                                            setSelectedClient(null);
                                         }}
                                     >
                                         Cancelar
@@ -319,6 +327,10 @@ const Clients: React.FC = () => {
                                         sx={{
                                             width: '100%',
                                         }}
+                                        onClick={() => {
+                                            navigate('/pets')
+                                            setTrigger(prevState => ({...prevState, createPet: true}))
+                                        }}
                                         variant={'outlined'}
                                     >
                                         Cadastrar Pet
@@ -331,15 +343,17 @@ const Clients: React.FC = () => {
             </Box>
             <Modal
                 title={'Cadastrar Cliente'}
-                open={openCreate}
+                open={openCreate || trigger?.createClient}
                 titleIcon={<Person />}
                 disabled={isButtonDisabled}
                 confirmText={'Cadastrar'}
                 onClickConfirm={() => createClient()}
                 cancelText={'Fechar'}
                 onClickCancel={() => {
+                    setClientCreate(createInitialState)
                     setOpenCreate(false);
                     setEdit(false);
+                    setTrigger(prevState => ({...prevState, createClient: false}))
                 }}
                 styles={{ p: '1rem' }}
                 dialogContent={
