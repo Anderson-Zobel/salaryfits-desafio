@@ -39,7 +39,7 @@ Caso queira acessar o banco de dados pelo Prisma Studio
 npx prisma studio
 ```
 
-### Prisma Studio - Banco de Dados
+### Testes com Jest
 Para rodar a cobertura de testes
 ```
 npm run coverage
