@@ -39,6 +39,12 @@ Caso queira acessar o banco de dados pelo Prisma Studio
 npx prisma studio
 ```
 
+### Prisma Studio - Banco de Dados
+Para rodar a cobertura de testes
+```
+npm run coverage
+```
+
 ## Front-end
 ### Acesse a pasta /backend para executar os comandos
 
