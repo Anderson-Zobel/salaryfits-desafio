@@ -2,12 +2,13 @@ import React, { ReactNode } from 'react';
 import { Box, Typography } from "@mui/material";
 
 interface LabelValueTextProps {
-    value?: string | number | ReactNode;
+    value?: string | number ;
     label?: string;
     mb?: string;
+    notText?: ReactNode;
 }
 
-const LabelValueText: React.FC<LabelValueTextProps> = ({ value, label, mb}) => {
+const LabelValueText: React.FC<LabelValueTextProps> = ({ value, label, mb, notText}) => {
     return (
         <Box
             sx={{
@@ -26,6 +27,7 @@ const LabelValueText: React.FC<LabelValueTextProps> = ({ value, label, mb}) => {
             <Typography>
                 {value}
             </Typography>
+            {notText}
         </Box>
     );
 }

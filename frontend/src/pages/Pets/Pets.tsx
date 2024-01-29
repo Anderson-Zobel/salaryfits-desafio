@@ -21,10 +21,12 @@ import PetTableBody from "../../components/PetTableBody";
 import {useGlobalContext} from "../../contexts/GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { PetsProps, PetCreateProps, PetUpdateProps, ClientsProps } from "../../types/types"
+import {useSnackbar} from "notistack";
 
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
     const { trigger, setTrigger } = useGlobalContext();
 
     const createInitialState = {
@@ -68,12 +70,14 @@ const Clients: React.FC = () => {
     async function createPet() {
         try {
             await api.post('/pet', petCreate);
+            enqueueSnackbar('Pet cadastrado', {variant: 'success'})
             fetchPetsData();
             setEdit(false);
             setOpenCreate(false);
             setPetCreate(createInitialState)
             setTrigger(prevState => ({...prevState, createPet: false}))
         } catch (error) {
+            enqueueSnackbar('Erro ao cadastrar pet', {variant: 'error'})
             console.error(error);
         }
     }
@@ -81,9 +85,11 @@ const Clients: React.FC = () => {
     async function updatePet() {
         try {
             await api.put('/pet', petUpdate);
+            enqueueSnackbar('Pet atualizado', {variant: 'success'})
             fetchPetsData();
             setEdit(false);
         } catch (error) {
+            enqueueSnackbar('Erro ao atualizar pet', {variant: 'error'})
             console.error(error);
         }
     }
@@ -91,11 +97,13 @@ const Clients: React.FC = () => {
     async function deletePet() {
         try {
             await api.delete('/pet', { params: { id: selectedPet?.id } });
+            enqueueSnackbar('Pet deletado', {variant: 'success'})
             fetchPetsData();
             setOpenDetail(false);
             setOpenDelete(false);
             setEdit(false);
         } catch (error) {
+            enqueueSnackbar('Erro ao deletar pet', {variant: 'error'})
             console.error(error);
         }
     }

@@ -61,14 +61,12 @@ const Modal: React.FC<ModalProps> = ({
                 }
             }}
         >
-            {title && (
-                <ModalTitle
-                    title={title}
-                    subtitle={subtitle}
-                    avatarIcon={titleIcon}
-                    actionMenu={actionMenu}
-                />
-            )}
+            <ModalTitle
+                title={title}
+                subtitle={subtitle}
+                avatarIcon={titleIcon}
+                actionMenu={actionMenu}
+            />
             <DialogContent>
                 {dialogContent}
 

@@ -21,12 +21,12 @@ import LabelValueText from "../../components/LabelValueText";
 import {useGlobalContext} from "../../contexts/GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { ClientsProps, ClientCreateProps, ClientUpdateProps, PetsProps } from "../../types/types";
-
-
+import { useSnackbar } from "notistack";
 
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
     const { trigger, setTrigger } = useGlobalContext();
 
     const createInitialState = {
@@ -53,7 +53,7 @@ const Clients: React.FC = () => {
 
     function noPets(){
         if (clientUpdate?.pets?.length !== undefined && clientUpdate.pets.length < 1){
-            return"Cliente sem pet cadastrado"
+            return "Cliente sem pet cadastrado"
         }
 
     }
@@ -70,6 +70,7 @@ const Clients: React.FC = () => {
     async function createClient() {
         try {
             await api.post('/client', clientCreate);
+            enqueueSnackbar('Cliente cadastrado', { variant: 'success' })
             fetchClientsData();
             setEdit(false);
             setOpenCreate(false);
@@ -77,27 +78,32 @@ const Clients: React.FC = () => {
             setTrigger(prevState => ({...prevState, createClient: false}))
         } catch (error) {
             console.error(error);
+            enqueueSnackbar('Erro ao cadastrar cliente', { variant: 'error' })
         }
     }
 
     async function updateClient() {
         try {
             await api.put('/client', clientUpdate);
+            enqueueSnackbar('Cliente atualizado', { variant: 'success' })
             fetchClientsData();
             setEdit(false);
         } catch (error) {
             console.error(error);
+            enqueueSnackbar('Erro ao atualizar cliente', { variant: 'error' })
         }
     }
 
     async function deleteClient() {
         try {
             await api.delete('/client', { params: { id: selectedClient?.id } });
+            enqueueSnackbar('Cliente deletado', { variant: 'success' })
             fetchClientsData();
             setOpenDetail(false);
             setOpenDelete(false);
             setEdit(false);
         } catch (error) {
+            enqueueSnackbar('Erro ao atualizar cliente', { variant: 'error' })
             console.error(error);
         }
     }

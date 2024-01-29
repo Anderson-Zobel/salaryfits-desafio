@@ -30,9 +30,11 @@ import SchedulingTableBody from "../../components/SchedulingTableBody";
 import { MobileTimePicker } from '@mui/x-date-pickers';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import moment from "moment";
+import {useSnackbar} from "notistack";
 
 const Schedulings: React.FC = () => {
     const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
     const { setTrigger } = useGlobalContext();
 
     const createInitialState = {
@@ -103,12 +105,14 @@ const Schedulings: React.FC = () => {
     async function createScheduling() {
         try {
             await api.post('/scheduling', schedulingCreate);
+            enqueueSnackbar('Agendamento criado', { variant: 'success' })
             fetchSchedulingData();
             setEdit(false);
             setOpenCreate(false);
             setSchedulingCreate(createInitialState)
             setSelectedScheduling(null)
         } catch (error) {
+            enqueueSnackbar('Erro ao criar agendamento', { variant: 'error' })
             console.error(error);
         }
     }
@@ -116,10 +120,12 @@ const Schedulings: React.FC = () => {
     async function updateScheduling() {
         try {
             await api.put('/scheduling', schedulingUpdate);
+            enqueueSnackbar('Agendamento atualizado', { variant: 'success' })
             fetchSchedulingData();
             setOpenStatus(false)
             setEdit(false);
         } catch (error) {
+            enqueueSnackbar('Erro ao atualizar agendamento', { variant: 'error' })
             console.error(error);
         }
     }
@@ -127,11 +133,13 @@ const Schedulings: React.FC = () => {
     async function deleteScheduling() {
         try {
             await api.delete('/scheduling', { params: { id: selectedScheduling?.id } });
+            enqueueSnackbar('Agendamento deletado', { variant: 'success' })
             fetchSchedulingData();
             setOpenDetail(false);
             setOpenDelete(false);
             setEdit(false);
         } catch (error) {
+            enqueueSnackbar('Erro ao deletar agendamento', { variant: 'error' })
             console.error(error);
         }
     }
@@ -273,25 +281,25 @@ const Schedulings: React.FC = () => {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <TextField
-                                        label={'Cliente'}
-                                        select={true}
-                                        required={true}
-                                        fullWidth={true}
-                                        size={'small'}
-                                        value={schedulingUpdate?.client_id ?? ''}
-                                        onChange={(e) => setSchedulingUpdate((prevState) => ({
-                                            ...prevState,
-                                            client_id: +e.target.value
-                                        }))}
-                                        sx={{
-                                            mb: '1rem',
-                                        }}
-                                    >
-                                        {clients?.map((client) =>
-                                            <MenuItem key={client?.id} value={client.id}>{client.name}</MenuItem>
-                                        )}
-                                    </TextField>
+                                    {/*<TextField*/}
+                                    {/*    label={'Cliente'}*/}
+                                    {/*    select={true}*/}
+                                    {/*    required={true}*/}
+                                    {/*    fullWidth={true}*/}
+                                    {/*    size={'small'}*/}
+                                    {/*    value={schedulingUpdate?.client_id ?? ''}*/}
+                                    {/*    onChange={(e) => setSchedulingUpdate((prevState) => ({*/}
+                                    {/*        ...prevState,*/}
+                                    {/*        client_id: +e.target.value*/}
+                                    {/*    }))}*/}
+                                    {/*    sx={{*/}
+                                    {/*        mb: '1rem',*/}
+                                    {/*    }}*/}
+                                    {/*>*/}
+                                    {/*    {clients?.map((client) =>*/}
+                                    {/*        <MenuItem key={client?.id} value={client.id}>{client.name}</MenuItem>*/}
+                                    {/*    )}*/}
+                                    {/*</TextField>*/}
 
                                     <TextField
                                         label={'Pet'}
@@ -359,14 +367,18 @@ const Schedulings: React.FC = () => {
                                 <>
                                     <LabelValueText label={'Cliente'} value={schedulingUpdate?.client?.name} mb={'1rem'} />
                                     <LabelValueText label={"Pet"} value={schedulingUpdate?.pet?.name} mb={'1rem'}/>
-                                    {/*<LabelValueText label={'Data'} value={moment(schedulingUpdate?.scheduled_at).format('DD/MM/YY')} mb={'1rem'} />*/}
-                                    {/*<LabelValueText label={'Hora'} value={moment(schedulingUpdate?.scheduled_at).format('HH:mm')} mb={'1rem'} />*/}
-                                    <LabelValueText label={'Situação'} value={<Chip
-                                        label={statusText(schedulingUpdate?.status ?? '')}
-                                        size={'small'}
-                                        variant={'outlined'}
-                                        sx={{ borderColor: statusColor(schedulingUpdate?.status ?? ''), color: statusColor(schedulingUpdate?.status ?? '')  }}
-                                    />} mb={'1rem'} />
+                                    <LabelValueText label={'Data'} value={String(moment(schedulingUpdate?.scheduled_at).format('DD/MM/YY'))} mb={'1rem'} />
+                                    <LabelValueText label={'Hora'} value={String(moment(schedulingUpdate?.scheduled_at).format('HH:mm'))} mb={'1rem'} />
+                                    <LabelValueText
+                                        label={'Situação'}
+                                        notText={<Chip
+                                            label={statusText(schedulingUpdate?.status ?? '')}
+                                            size={'small'}
+                                            variant={'outlined'}
+                                            sx={{ borderColor: statusColor(schedulingUpdate?.status ?? ''), color: statusColor(schedulingUpdate?.status ?? '')  }}
+                                            />}
+                                        mb={'1rem'}
+                                    />
                                 </>
                             )}
                         </>
