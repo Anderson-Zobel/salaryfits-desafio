@@ -10,7 +10,8 @@ import {
     Menu,
 } from "@mui/material";
 import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
-import { ClientTableBodyProps, ClientsProps} from "../types/types"
+import { ClientTableBodyProps, ClientsProps} from "../types/types";
+import MasksFilter from '../shared/MasksFilter'
 
 const ClientTableBody: React.FC<ClientTableBodyProps> = ({
      setSelectedClient,
@@ -45,7 +46,7 @@ const ClientTableBody: React.FC<ClientTableBodyProps> = ({
                         </TableCell>
 
                         <TableCell component="th" scope="row">
-                            {client.phone}
+                            {MasksFilter?.phone(client.phone ?? '')}
                         </TableCell>
 
                         <TableCell

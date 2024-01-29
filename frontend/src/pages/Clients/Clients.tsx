@@ -10,7 +10,7 @@ import {
     Table,
     TableContainer,
     TextField,
-    Typography,
+    Typography, useMediaQuery,
 } from "@mui/material";
 import { Delete, Edit, Person } from "@mui/icons-material";
 import ClientTableHead from "../../components/ClientTableHead";
@@ -22,12 +22,14 @@ import {useGlobalContext} from "../../contexts/GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { ClientsProps, ClientCreateProps, ClientUpdateProps, PetsProps } from "../../types/types";
 import { useSnackbar } from "notistack";
+import MasksFilter from "../../shared/MasksFilter";
 
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { trigger, setTrigger } = useGlobalContext();
+    const sizeMatch = useMediaQuery("@media (min-width:900px)");
 
     const createInitialState = {
         name: "",
@@ -50,6 +52,9 @@ const Clients: React.FC = () => {
     const [openDetail, setOpenDetail] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [filter, setFilter] = useState({
+        search: ""
+    })
 
     function noPets(){
         if (clientUpdate?.pets?.length !== undefined && clientUpdate.pets.length < 1){
@@ -60,7 +65,7 @@ const Clients: React.FC = () => {
 
     async function fetchClientsData() {
         try {
-            const response = await api.get('/clients');
+            const response = await api.get('/clients', {params : filter });
             setClients(response.data);
         } catch (error) {
             console.error(error);
@@ -115,7 +120,7 @@ const Clients: React.FC = () => {
 
     useEffect(() => {
         fetchClientsData();
-    }, []);
+    }, [filter]);
 
     useEffect(() => {
         const client = selectedClient?.id && clients?.find((e) => e.id === selectedClient.id);
@@ -136,7 +141,8 @@ const Clients: React.FC = () => {
             >
                 <Card
                     sx={{
-                        width: '50%',
+                        width: sizeMatch ? '50%' : '100%',
+                        mt: '4rem'
                     }}
                 >
                     <CardHeader
@@ -170,6 +176,16 @@ const Clients: React.FC = () => {
                             alignItems: 'center',
                         }}
                     >
+                        <TextField
+                            label={'Procure pelo nome'}
+                            fullWidth={true}
+                            size={'small'}
+                            value={filter?.search}
+                            onChange={(e) => setFilter((prevState) => ({ ...prevState, search: e.target.value }))}
+                            sx={{
+                                mb: '1rem',
+                            }}
+                        />
                         <TableContainer>
                             <Table>
                                 <ClientTableHead />
@@ -269,7 +285,7 @@ const Clients: React.FC = () => {
                                         required={true}
                                         fullWidth={true}
                                         size={'small'}
-                                        value={clientUpdate?.phone}
+                                        value={MasksFilter?.phone(clientUpdate?.phone ?? '')}
                                         onChange={(e) => setClientUpdate((prevState) => ({ ...prevState, phone: e.target.value }))}
                                         sx={{
                                             mb: '1rem',
@@ -279,7 +295,7 @@ const Clients: React.FC = () => {
                             ) : (
                                 <>
                                     <LabelValueText label={"E-mail"} value={clientUpdate?.email} />
-                                    <LabelValueText label={"Telefone"} value={clientUpdate?.phone} />
+                                    <LabelValueText label={"Telefone"} value={MasksFilter?.phone(clientUpdate?.phone ?? '')} />
                                     <LabelValueText
                                         label={"Pets"}
                                         value={noPets()}
@@ -366,7 +382,7 @@ const Clients: React.FC = () => {
                             required={true}
                             fullWidth={true}
                             size={'small'}
-                            value={clientCreate?.phone ?? ''}
+                            value={MasksFilter?.phone(clientCreate?.phone ?? '')}
                             onChange={(e) => setClientCreate((prevState) => ({ ...prevState, phone: e.target.value }))}
                             sx={{
                                 mb: '1rem',

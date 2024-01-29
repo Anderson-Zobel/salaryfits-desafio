@@ -11,7 +11,7 @@ import {
     Table,
     TableContainer,
     TextField, ToggleButton, ToggleButtonGroup,
-    Typography,
+    Typography, useMediaQuery,
 } from "@mui/material";
 import  {CalendarMonth, Delete, Edit } from "@mui/icons-material";
 import { api } from "../../services/Api";
@@ -36,11 +36,11 @@ const Schedulings: React.FC = () => {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { setTrigger } = useGlobalContext();
+    const sizeMatch = useMediaQuery("@media (min-width:900px)");
 
     const createInitialState = {
         scheduled_at: moment().format(),
     }
-
 
     const [schedulings, setSchedulings] = useState<SchedulingProps[]>([]);
     const [clients, setClients] = useState<ClientsProps[]>([]);
@@ -57,6 +57,14 @@ const Schedulings: React.FC = () => {
     const [openDelete, setOpenDelete] = useState(false);
     const [openStatus, setOpenStatus] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [openFilter, setOpenFilter] = useState(false)
+    const [dateFilter, setDateFilter] = useState(null)
+    const [clientsCheck, setClientsCheck] = useState(false)
+    const [filter, setFilter] = useState({
+        search: "",
+        date: "",
+        status: ""
+    })
 
     function statusText(status: string) {
         switch (status) {
@@ -95,7 +103,7 @@ const Schedulings: React.FC = () => {
 
     async function fetchSchedulingData() {
         try {
-            const response = await api.get('/schedulings');
+            const response = await api.get('/schedulings', { params: filter});
             setSchedulings(response.data);
         } catch (error) {
             console.error(error);
@@ -149,15 +157,35 @@ const Schedulings: React.FC = () => {
         setButtonDisabled(!areFieldsFilled);
     }, [schedulingCreate]);
 
-    useEffect(() => {
+    useEffect(function firstLoad() {
         fetchSchedulingData();
         fetchClientsData();
     }, []);
+
+    useEffect(function whenUseFilter() {
+        fetchSchedulingData();
+    }, [filter]);
 
     useEffect(() => {
         const scheduling = selectedScheduling?.id && schedulings?.find((e) => e.id === selectedScheduling.id);
         setSchedulingUpdate(scheduling as SchedulingUpdateProps);
     }, [selectedScheduling, schedulings]);
+
+    useEffect(function openFilterObserver(){
+        if(openFilter === true) {
+            setFilter(prevState => ({...prevState, date: dateFilter ?? ''}))
+        } else {
+            setFilter(prevState => ({...prevState, date: ''}))
+        }
+    }, [dateFilter, openFilter])
+
+    useEffect(function checkClientsConditional(){
+       if(clients && clients[0] && clients[0]?.pets && clients[0]?.pets.length > 0){
+           setClientsCheck(true)
+       } else {
+           setClientsCheck(false)
+       }
+    }, [clients])
 
 
     return (
@@ -173,7 +201,8 @@ const Schedulings: React.FC = () => {
             >
                 <Card
                     sx={{
-                        width: '50%',
+                        width: sizeMatch ? '50%' : '100%',
+                        mt: '4rem'
                     }}
                 >
                     <CardHeader
@@ -207,6 +236,90 @@ const Schedulings: React.FC = () => {
                             alignItems: 'center',
                         }}
                     >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'flex-start',
+                                mb: '1rem',
+                                width: '100%'
+                            }}
+                        >
+                            <Fade
+                                in={openFilter}
+                                mountOnEnter
+                                unmountOnExit
+                                timeout={200}
+                            >
+                                <Box>
+                                    <DesktopDatePicker
+                                        label="Data"
+                                        value={dateFilter}
+                                        onChange={(date) => setDateFilter(date)}
+                                    />
+                                </Box>
+                            </Fade>
+                            <Button
+                                variant={'text'}
+                                onClick={() => {
+                                    setOpenFilter(!openFilter)
+                                }}
+                            >
+                                {openFilter ? "Remover filtro" : "Filtro por data"}
+                            </Button>
+                        </Box>
+                        <ToggleButtonGroup
+                            fullWidth
+                            value={filter?.status}
+                            exclusive
+                            onChange={(_e, value) => setFilter((prevState) => ({
+                                ...prevState,
+                                status: value,
+                            }))}
+                            size={'small'}
+                            sx={{ mb: '1rem', width: '100%'}}
+                        >
+                            <ToggleButton
+                                value="open"
+                                style={{
+                                    backgroundColor: filter?.status === 'open'
+                                        ? statusColor('open')
+                                        : '',
+                                }}
+                            >
+                                Aberto
+                            </ToggleButton>
+                            <ToggleButton
+                                value="done"
+                                style={{
+                                    backgroundColor: filter?.status === 'done'
+                                        ? statusColor('done')
+                                        : '',
+                                }}
+                            >
+                                Concluído
+                            </ToggleButton>
+                            <ToggleButton
+                                value="canceled"
+                                style={{
+                                    backgroundColor: filter?.status === 'canceled'
+                                        ? statusColor('canceled')
+                                        : '',
+                                }}
+                            >
+                                Cancelado
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                        <TextField
+                            label={'Procure cliente ou pet'}
+                            fullWidth={true}
+                            size={'small'}
+                            value={filter?.search}
+                            onChange={(e) => setFilter((prevState) => ({ ...prevState, search: e.target.value }))}
+                            sx={{
+                                mb: '1rem',
+                            }}
+                        />
                         <TableContainer>
                             <Table>
                                 <SchedulingTableHead />
@@ -281,25 +394,6 @@ const Schedulings: React.FC = () => {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    {/*<TextField*/}
-                                    {/*    label={'Cliente'}*/}
-                                    {/*    select={true}*/}
-                                    {/*    required={true}*/}
-                                    {/*    fullWidth={true}*/}
-                                    {/*    size={'small'}*/}
-                                    {/*    value={schedulingUpdate?.client_id ?? ''}*/}
-                                    {/*    onChange={(e) => setSchedulingUpdate((prevState) => ({*/}
-                                    {/*        ...prevState,*/}
-                                    {/*        client_id: +e.target.value*/}
-                                    {/*    }))}*/}
-                                    {/*    sx={{*/}
-                                    {/*        mb: '1rem',*/}
-                                    {/*    }}*/}
-                                    {/*>*/}
-                                    {/*    {clients?.map((client) =>*/}
-                                    {/*        <MenuItem key={client?.id} value={client.id}>{client.name}</MenuItem>*/}
-                                    {/*    )}*/}
-                                    {/*</TextField>*/}
 
                                     <TextField
                                         label={'Pet'}
@@ -349,13 +443,34 @@ const Schedulings: React.FC = () => {
                                             status: value
                                         }))}
                                     >
-                                        <ToggleButton value="open" style={{ backgroundColor: schedulingUpdate?.status === 'open' && statusColor('open')  }}>
+                                        <ToggleButton
+                                            value="open"
+                                            style={{
+                                                backgroundColor: schedulingUpdate?.status === 'open'
+                                                    ? statusColor('open')
+                                                    : '',
+                                            }}
+                                        >
                                             Aberto
                                         </ToggleButton>
-                                        <ToggleButton value="done" style={{ backgroundColor: schedulingUpdate?.status === 'done' && statusColor('done') }}>
+                                        <ToggleButton
+                                            value="done"
+                                            style={{
+                                                backgroundColor: schedulingUpdate?.status === 'done'
+                                                    ? statusColor('done')
+                                                    : '',
+                                            }}
+                                        >
                                             Concluído
                                         </ToggleButton>
-                                        <ToggleButton value="canceled" style={{ backgroundColor: schedulingUpdate?.status === 'canceled' && statusColor('canceled') }}>
+                                        <ToggleButton
+                                            value="canceled"
+                                            style={{
+                                                backgroundColor: schedulingUpdate?.status === 'canceled'
+                                                    ? statusColor('canceled')
+                                                    : '',
+                                            }}
+                                        >
                                             Cancelado
                                         </ToggleButton>
                                     </ToggleButtonGroup>
@@ -407,7 +522,8 @@ const Schedulings: React.FC = () => {
                             flexDirection: 'column',
                         }}
                     >
-                    {clients?.length > 0 && clients[0]?.pets?.length > 0 ?
+                    {clientsCheck ?
+
                         <>
                         <TextField
                             label={'Cliente'}
@@ -493,7 +609,7 @@ const Schedulings: React.FC = () => {
                                 </Alert>
                             )}
 
-                            {clients[0]?.pets?.length < 1 && (
+                            {clients && clients[0]?.pets && clients[0]?.pets?.length < 1 && (
                                 <Alert severity={'info'} sx={{ mb: '1rem' }}>
                                     Não possui nenhum pet cadastrado.
                                 </Alert>
@@ -550,13 +666,34 @@ const Schedulings: React.FC = () => {
                             status: value
                         }))}
                     >
-                        <ToggleButton value="open" style={{ backgroundColor: schedulingUpdate?.status === 'open' && statusColor('open')  }}>
+                        <ToggleButton
+                            value="open"
+                            style={{
+                                backgroundColor: schedulingUpdate?.status === 'open'
+                                    ? statusColor('open')
+                                    : '',
+                            }}
+                        >
                             Aberto
                         </ToggleButton>
-                        <ToggleButton value="done" style={{ backgroundColor: schedulingUpdate?.status === 'done' && statusColor('done') }}>
+                        <ToggleButton
+                            value="done"
+                            style={{
+                                backgroundColor: schedulingUpdate?.status === 'done'
+                                    ? statusColor('done')
+                                    : '',
+                            }}
+                        >
                             Concluído
                         </ToggleButton>
-                        <ToggleButton value="canceled" style={{ backgroundColor: schedulingUpdate?.status === 'canceled' && statusColor('canceled') }}>
+                        <ToggleButton
+                            value="canceled"
+                            style={{
+                                backgroundColor: schedulingUpdate?.status === 'canceled'
+                                    ? statusColor('canceled')
+                                    : '',
+                            }}
+                        >
                             Cancelado
                         </ToggleButton>
                     </ToggleButtonGroup>

@@ -10,7 +10,7 @@ import {
     Table,
     TableContainer,
     TextField,
-    Typography,
+    Typography, useMediaQuery,
 } from "@mui/material";
 import { Delete, Edit, Pets } from "@mui/icons-material";
 import { api } from "../../services/Api";
@@ -28,6 +28,8 @@ const Clients: React.FC = () => {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { trigger, setTrigger } = useGlobalContext();
+    const sizeMatch = useMediaQuery("@media (min-width:900px)");
+
 
     const createInitialState = {
         name: "",
@@ -48,10 +50,13 @@ const Clients: React.FC = () => {
     const [openDetail, setOpenDetail] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [filter, setFilter] = useState({
+        search: ""
+    })
 
     async function fetchClientsData() {
         try {
-            const response = await api.get('/clients');
+            const response = await api.get('/clients', );
             setClients(response.data);
         } catch (error) {
             console.error(error);
@@ -60,7 +65,7 @@ const Clients: React.FC = () => {
 
     async function fetchPetsData() {
         try {
-            const response = await api.get('/pets');
+            const response = await api.get('/pets', { params: filter });
             setPets(response.data);
         } catch (error) {
             console.error(error);
@@ -113,12 +118,16 @@ const Clients: React.FC = () => {
         setButtonDisabled(!areFieldsFilled);
     }, [petCreate]);
 
-    useEffect(() => {
+    useEffect(function firstPageLoad() {
         fetchPetsData();
         fetchClientsData();
     }, []);
 
-    useEffect(() => {
+    useEffect(function whenUseFilter() {
+        fetchPetsData();
+    }, [filter]);
+
+    useEffect(function setSelectedPet() {
         const pet = selectedPet?.id && pets?.find((e) => e.id === selectedPet.id);
         setPetUpdate(pet || {} as PetUpdateProps);
     }, [selectedPet, pets]);
@@ -136,9 +145,11 @@ const Clients: React.FC = () => {
             >
                 <Card
                     sx={{
-                        width: '50%',
+                        width: sizeMatch ? '50%' : '100%',
+                        mt: '4rem'
                     }}
                 >
+
                     <CardHeader
                         avatar={<Avatar sx={{ bgcolor: '#8AA9C1' }}><Pets /></Avatar>}
                         title={
@@ -170,6 +181,16 @@ const Clients: React.FC = () => {
                             alignItems: 'center',
                         }}
                     >
+                        <TextField
+                            label={'Procure pelo nome'}
+                            fullWidth={true}
+                            size={'small'}
+                            value={filter?.search}
+                            onChange={(e) => setFilter((prevState) => ({ ...prevState, search: e.target.value }))}
+                            sx={{
+                                mb: '1rem',
+                            }}
+                        />
                         <TableContainer>
                             <Table>
                                 <PetTableHead />

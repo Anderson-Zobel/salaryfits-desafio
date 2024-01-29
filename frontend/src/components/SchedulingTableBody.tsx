@@ -9,7 +9,7 @@ import {
     TableRow,
     Menu, Chip,
 } from "@mui/material";
-import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
+import {Delete, ManageSearch, MoreVert, PublishedWithChanges} from "@mui/icons-material";
 import { SchedulingProps, SchedulingTableBodyProps } from "../types/types";
 import moment from "moment";
 
@@ -136,7 +136,7 @@ const ClientTableBody: React.FC<SchedulingTableBodyProps> = ({
                                     }}
                                 >
                                     <ListItemIcon>
-                                        <ManageSearch />
+                                        <PublishedWithChanges />
                                     </ListItemIcon>
                                     <ListItemText
                                         primary="Mudar Situação"
