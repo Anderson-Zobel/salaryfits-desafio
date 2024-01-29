@@ -46,7 +46,7 @@ npm run coverage
 ```
 
 ## Front-end
-### Acesse a pasta /backend para executar os comandos
+### Acesse a pasta /frontend para executar os comandos
 
 ### Instale as dependênciuas:
 ```
