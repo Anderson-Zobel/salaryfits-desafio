@@ -14,11 +14,11 @@ import { SchedulingProps, SchedulingTableBodyProps } from "../types/types";
 import moment from "moment";
 
 const ClientTableBody: React.FC<SchedulingTableBodyProps> = ({
-          setSelectedScheduling,
-          setOpenDetail,
-          setOpenDelete,
-          setOpenStatus,
-          schedulings,
+      setSelectedScheduling,
+      setOpenDetail,
+      setOpenDelete,
+      setOpenStatus,
+      schedulings,
       }) => {
 
     const [open, setOpen] = useState<number | null>(null);

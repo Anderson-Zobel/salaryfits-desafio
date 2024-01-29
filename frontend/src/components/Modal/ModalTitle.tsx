@@ -11,12 +11,13 @@ interface ModalTitleProps {
 }
 
 const ModalTitle: React.FC<ModalTitleProps> = ({
-                                             title,
-                                             subtitle,
-                                             styles,
-                                             avatarIcon,
-                                             actionMenu,
-                                         }) => {
+         title,
+         subtitle,
+         styles,
+         avatarIcon,
+         actionMenu,
+     }) => {
+
     return (
         <>
             <DialogTitle
