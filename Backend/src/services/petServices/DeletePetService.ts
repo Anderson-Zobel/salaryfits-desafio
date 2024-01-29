@@ -1,5 +1,8 @@
 import prisma from "../../prismaClient";
 
+// DeletePetService exclui um animal de estimação pelo ID, realizando uma transação para garantir consistência nas exclusões.
+// Retorna uma mensagem de sucesso ou erro.
+
 interface DeletePetProps{
     id: number;
 }
@@ -29,7 +32,7 @@ class DeletePetService{
 
         ]);
 
-        return { message: "Cliente Deletado" };
+        return { message: "Pet Deletado" };
 
     }
 }

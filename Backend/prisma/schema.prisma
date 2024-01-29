@@ -1,5 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Nesta página, um esquema de banco de dados está sendo definido usando Prisma.
+// O esquema possui três modelos: Client, Pet e Scheduling. Cada modelo representa
+// uma entidade do banco de dados, como cliente, animal de estimação e agendamento.
+// Os modelos têm campos específicos, como nome, tipo, status, e relacionamentos definidos entre eles,
+// como a relação entre clientes e seus animais de estimação (client_pets). O banco de dados é configurado
+// para usar o provedor SQLite, e os modelos são mapeados para tabelas específicas no banco de dados.
 
 generator client {
   provider = "prisma-client-js"

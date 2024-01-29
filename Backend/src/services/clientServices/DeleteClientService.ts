@@ -1,5 +1,8 @@
 import prisma from "../../prismaClient";
 
+// DeleteClientService é um serviço que exclui um cliente e todos os seus relacionamentos, como agendamentos e pets, usando transações do Prisma.
+// Se o ID do cliente não for fornecido, uma exceção é lançada. Em caso de sucesso, uma mensagem indicando a exclusão é retornada.
+
 interface DeleteClientProps{
     id: number;
 }

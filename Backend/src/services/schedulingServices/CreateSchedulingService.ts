@@ -1,5 +1,9 @@
 import prisma from "../../prismaClient";
 
+// CreateSchedulingService cria um agendamento, recebendo informações sobre o status, cliente,
+// animal de estimação e data agendada. Retorna o agendamento criado ou uma mensagem de erro se houver campos não preenchidos.
+
+
 interface CreateSchedulingProps {
     status?: string;
     client_id: number;

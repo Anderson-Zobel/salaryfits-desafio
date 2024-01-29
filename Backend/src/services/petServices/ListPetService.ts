@@ -1,5 +1,3 @@
-// ListPetService.ts
-
 import prisma from "../../prismaClient";
 
 class ListPetService {

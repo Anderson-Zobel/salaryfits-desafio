@@ -1,5 +1,10 @@
 import prisma from "../../prismaClient";
 
+// ListSchedulingService busca agendamentos com base em parâmetros opcionais de pesquisa, data e status. Utiliza o
+// Prisma para realizar consultas no banco de dados, retornando os agendamentos encontrados, incluindo informações sobre o
+// cliente e o animal de estimação associados. Se ocorrer um erro, imprime no console e retorna uma resposta de erro.
+
+
 class ListSchedulingService {
     async execute(search?: string, date?: string, status?: string) {
         try {

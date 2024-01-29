@@ -1,19 +1,34 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { ListSchedulingService } from "../../services/schedulingServices/ListSchedulingService";
 
+
+// O ListSchedulingController processa uma requisição para listar agendamentos, usando critérios opcionais como search,
+// date, e status. Ele utiliza o serviço ListSchedulingService para realizar a busca e responde com os resultados encontrados
+// (código 200) ou, em caso de erro interno, retorna uma mensagem de erro com código 500.
+
 class ListSchedulingController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { search, date, status } = request.query;
+        try {
+            const query = request.query as {
+                search?: string;
+                date?: string;
+                status?: string;
+            };
 
-        const listSchedulingService = new ListSchedulingService();
+            const { search, date, status } = query;
 
-        const scheduling = await listSchedulingService.execute(
-            search,
-            date,
-            status
-        );
+            const listSchedulingService = new ListSchedulingService();
 
-        reply.send(scheduling);
+            const scheduling = await listSchedulingService.execute(
+                search,
+                date,
+                status
+            );
+
+            reply.code(200).send(scheduling);
+        } catch (error) {
+            reply.code(500).send({ error: "Erro interno do servidor" });
+        }
     }
 }
 

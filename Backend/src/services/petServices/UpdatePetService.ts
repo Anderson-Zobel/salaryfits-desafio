@@ -1,5 +1,9 @@
 import prisma from "../../prismaClient";
 
+// ListPetService busca animais de estimação com base em um termo de pesquisa, incluindo dados do cliente associado.
+// Retorna a lista de pets correspondentes ou uma mensagem de erro, se houver.
+
+
 interface UpdatePetProps {
     id: number;
     name?: string;

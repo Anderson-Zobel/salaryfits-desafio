@@ -354,6 +354,7 @@ const Clients: React.FC = () => {
                             required={true}
                             fullWidth={true}
                             size={'small'}
+                            helperText={'ex: Gato, Cachorro, Papagaio'}
                             value={petCreate?.type ?? ''}
                             onChange={(e) => setPetCreate((prevState) => ({ ...prevState, type: e.target.value }))}
                             sx={{

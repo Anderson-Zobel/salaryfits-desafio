@@ -1,5 +1,10 @@
 import prisma from "../../prismaClient";
 
+// CreateClientService é um serviço que cria um novo cliente utilizando o Prisma.
+// Ele verifica se os campos obrigatórios estão preenchidos, retornando um erro se não.
+// Em caso de sucesso, o novo cliente é retornado; em falha, uma exceção é lançada.
+
+
 interface CreateClientProps {
     name: string;
     email: string;
