@@ -16,15 +16,15 @@ class UpdateSchedulingService {
             });
 
             if (!existingScheduling) {
-                return { error: "Agendamento não encontrado" };
+                throw new Error("Agendamento não encontrado");
             }
 
             const updateScheduling = await prisma.scheduling.update({
                 where: { id },
                 data: {
                     status: status || existingScheduling.status,
-                    client_id: client_id || existingScheduling.email,
-                    pet_id: pet_id || existingScheduling.phone,
+                    client_id: client_id || existingScheduling.client_id,
+                    pet_id: pet_id || existingScheduling.pet_id,
                     scheduled_at: scheduled_at || existingScheduling.scheduled_at,
                 },
             });

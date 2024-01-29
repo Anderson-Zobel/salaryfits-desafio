@@ -6,6 +6,9 @@ import NoMatch from "./pages/NoMatch/NoMatch";
 import Sidebar from "./components/SideBar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { ptBR } from 'date-fns/locale'
 
 function App() {
 
@@ -22,17 +25,19 @@ function App() {
 
   return (
     <>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+            <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Sidebar/>
+                <Routes>
+                    <Route path="/" element={<Schedulings />}/>
+                    <Route path="/clientes" element={<Clients />}/>
+                    <Route path="/pets" element={<Pets />}/>
+                    <Route path="*" element={<NoMatch/>}/>
+                </Routes>
+            </ThemeProvider>
+        </LocalizationProvider>
 
-        <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Sidebar/>
-            <Routes>
-                <Route path="/" element={<Schedulings />}/>
-                <Route path="/clientes" element={<Clients />}/>
-                <Route path="/pets" element={<Pets />}/>
-                <Route path="*" element={<NoMatch/>}/>
-            </Routes>
-        </ThemeProvider>
 
     </>
   )

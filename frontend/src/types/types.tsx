@@ -70,5 +70,43 @@ export interface PetTableBodyProps {
     pets: PetsProps[];
 }
 
+//////////////////////
+//// Schedulings ////
+////////////////////
 
+export interface SchedulingProps {
+    id: number;
+    status: string;
+    client_id: number;
+    pet_id: number;
+    scheduled_at: string;
+    created_at: string;
+    updated_at: string;
+    client?: ClientsProps;
+    pet?: PetsProps;
+}
 
+export interface SchedulingCreateProps {
+    client_id?: number;
+    pet_id?: number;
+    status?: string;
+    scheduled_at: string;
+}
+
+export interface SchedulingUpdateProps {
+    id: number;
+    client_id?: number;
+    pet_id?: number;
+    status?: string;
+    scheduled_at?: string;
+    client?: ClientsProps;
+    pet?: PetsProps;
+}
+
+export interface SchedulingTableBodyProps {
+    setSelectedScheduling: React.Dispatch<React.SetStateAction<SchedulingProps | null>>;
+    setOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    schedulings: SchedulingProps[];
+}

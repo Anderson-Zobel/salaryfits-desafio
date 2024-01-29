@@ -260,6 +260,7 @@ const Clients: React.FC = () => {
                                     <TextField
                                         label={'Cliente'}
                                         required={true}
+                                        select={true}
                                         fullWidth={true}
                                         size={'small'}
                                         value={petUpdate?.client_id ?? ''}
@@ -272,7 +273,7 @@ const Clients: React.FC = () => {
                                         }}
                                     >
                                         {clients?.map((client) =>
-                                        <MenuItem value={client.id}>{client.name}</MenuItem>
+                                        <MenuItem key={client.id} value={client.id}>{client.name}</MenuItem>
                                         )}
                                     </TextField>
                                 </Box>
@@ -334,7 +335,7 @@ const Clients: React.FC = () => {
                         {clients?.length > 0 ?
                             <TextField
                                 label={'Cliente'}
-                                select
+                                select={true}
                                 required={true}
                                 fullWidth={true}
                                 size={'small'}

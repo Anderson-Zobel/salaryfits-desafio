@@ -1,9 +1,38 @@
 import prisma from "../../prismaClient";
 
 class ListSchedulingService {
-    async execute() {
+    async execute(search?: string, date?: string, status?: string) {
         try {
+            const formattedSearchDate = date ? new Date(date) : undefined;
+
             const schedulings = await prisma.scheduling.findMany({
+                where: {
+                    OR: [
+                        {
+                            client: {
+                                name: {
+                                    contains: search,
+                                },
+                            },
+                        },
+                        {
+                            pet: {
+                                name: {
+                                    contains: search,
+                                },
+                            },
+                        },
+                    ],
+                    scheduled_at: formattedSearchDate
+                        ? {
+                            gte: formattedSearchDate,
+                            lt: new Date(formattedSearchDate.getTime() + 24 * 60 * 60 * 1000),
+                        }
+                        : undefined,
+                    status: {
+                        contains: status,
+                    },
+                },
                 include: {
                     client: true,
                     pet: true,

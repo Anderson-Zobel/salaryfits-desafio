@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ReactNode } from 'react';
 import { Box, Typography } from "@mui/material";
 
 interface LabelValueTextProps {
-    value?: string | number;
+    value?: string | number | ReactNode;
     label?: string;
     mb?: string;
 }

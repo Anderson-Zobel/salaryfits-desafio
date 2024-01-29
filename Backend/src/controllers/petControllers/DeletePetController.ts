@@ -1,6 +1,5 @@
-import {FastifyReply, FastifyRequest} from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { DeletePetService } from "../../services/petServices/DeletePetService";
-import prisma from "../../prismaClient";
 
 class DeletePetController{
     async handle(request: FastifyRequest, reply: FastifyReply){

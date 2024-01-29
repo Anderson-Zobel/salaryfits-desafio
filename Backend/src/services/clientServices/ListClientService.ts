@@ -1,11 +1,16 @@
 import prisma from "../../prismaClient";
 
 class ListClientService {
-    async execute() {
+    async execute(search?: string) {
         try {
             const clients = await prisma.client.findMany({
+                where: {
+                    name: {
+                        contains: search,
+                    },
+                },
                 include: {
-                    pets: true, // Inclui os dados dos pets associados a cada client
+                    pets: true,
                 },
             });
 

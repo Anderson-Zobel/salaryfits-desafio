@@ -9,28 +9,27 @@ class DeletePetService{
 
         if(!id){
             return {
-                error: "Preencha todos os campos",
+                error: "Ocorreu um erro",
                 status: 400,
             };
         }
 
-        const findPet = await prisma.pet.findFirst({
-            where: {
-                id: id
-            }
-        })
+        await prisma.$transaction([
+            prisma.scheduling.deleteMany({
+                where: {
+                    pet_id: id,
+                },
+            }),
 
-        if(!findPet) {
-            throw new Error('Pet não Encontrado')
-        }
+            prisma.pet.delete({
+                where: {
+                    id: id,
+                },
+            }),
 
-        await prisma.pet.delete({
-            where: {
-                id: findPet.id
-            }
-        })
+        ]);
 
-        return { message: 'Pet deletado'}
+        return { message: "Cliente Deletado" };
 
     }
 }

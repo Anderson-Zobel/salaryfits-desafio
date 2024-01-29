@@ -3,7 +3,7 @@ import {UpdateSchedulingService} from "../../services/schedulingServices/UpdateS
 
 class UpdateSchedulingController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { id, status, client_id, pet_id, schedule_at } = request.body as {
+        const { id, status, client_id, pet_id, scheduled_at } = request.body as {
             id: number;
             status?: string;
             client_id?: number;
@@ -18,7 +18,7 @@ class UpdateSchedulingController {
             status,
             client_id,
             pet_id,
-            schedule_at,
+            scheduled_at,
         });
 
         reply.send(updateScheduling);
