@@ -18,7 +18,7 @@
  </div>
  
 ## Instruções
-<a href="https:/youtu.be/HSXkzJf8FOc" target="_blank" style="text-decoration: none">
+<a href="https://youtu.be/HSXkzJf8FOc" target="_blank" style="text-decoration: none">
  <img 
   align="center" 
   alt="YOUTUBE" 
