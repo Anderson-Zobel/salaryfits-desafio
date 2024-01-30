@@ -64,10 +64,10 @@ npx prisma studio
 ### 🔵 Testes com Jest
 Para rodar a cobertura de testes
 ```
-npm test:coverage
+npm run test:coverage
 ```
 ```
-npm test
+npm run test
 ```
 
 ## Front-end
