@@ -25,7 +25,7 @@
   width="45" 
   src="https://www.svgrepo.com/show/13671/youtube.svg"
   />
- &nbsp; Instruções em vídeo para rodar aplicação
+ &nbsp; Instruções em vídeo
 </a>
 
 
