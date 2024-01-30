@@ -18,6 +18,21 @@
  </div>
 
 
+
+ 
+# 
+<a href="https:/youtube.com/watch?v=HSXkzJf8FO" target="_blank" style="text-decoration: none" mt="1rem">
+ <img 
+  align="center" 
+  alt="YOUTUBE" 
+  width="45" 
+  src="https://www.svgrepo.com/show/13671/youtube.svg"
+  />
+ &nbsp;Vídeo da Aplicaçao Bloco B3
+</a>
+
+![image](https://github.com/Anderson-Zobel/salaryfits-desafio/assets/87586643/7c548a9f-efca-4f5a-b408-6f62ad552b6d)
+
 ### Legendas, comando importante para rodar o projeto:
 #### 🟢 === Necessário 
 #### 🔵 === Opcional
