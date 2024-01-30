@@ -17,10 +17,8 @@
    <img align="center" alt="CSS" width="45"  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />&nbsp;&nbsp;
  </div>
  
-
-
- # Instruções
-<a href="https:/youtu.be/HSXkzJf8FOc" target="_blank" style="text-decoration: none" mt="1rem">
+## Instruções
+<a href="https:/youtu.be/HSXkzJf8FOc" target="_blank" style="text-decoration: none">
  <img 
   align="center" 
   alt="YOUTUBE" 
