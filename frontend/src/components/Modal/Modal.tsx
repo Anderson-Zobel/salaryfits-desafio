@@ -10,6 +10,10 @@ import {
 } from "@mui/material";
 import ModalTitle from "./ModalTitle";
 
+//// => Esse componente é frequentemente utilizado na aplicação, acaba por ser uma camada utilizados as tas 'Dialog' do MUI, para criar esse
+//// Modal customizado de mais fácil acesso aos seus atributos.
+
+
 interface ModalProps {
     open?: boolean;
     setOpen?: Dispatch<SetStateAction<boolean>>;

@@ -24,6 +24,9 @@ import { ClientsProps, ClientCreateProps, ClientUpdateProps, PetsProps } from ".
 import { useSnackbar } from "notistack";
 import MasksFilter from "../../shared/MasksFilter";
 
+//// => Camada do Cliente, as partes mais complexas da aplicação
+//// => Comporta uma organização: declarações, como Context, Libs de fora, Querys, > Estados > Funções > Requisições e Useffect.
+
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
@@ -113,7 +116,9 @@ const Clients: React.FC = () => {
         }
     }
 
-    useEffect(() => {
+    //// => Costumo mover para uma function comum para poder nomear o useEffect, deixando o que ele está fazendo explícito
+
+    useEffect(function checkInputs() {
         const allFieldsFilled = Object.values(clientCreate).every((value) => value?.trim() !== "");
         setButtonDisabled(!allFieldsFilled);
     }, [clientCreate]);

@@ -2,6 +2,9 @@ import React, { ReactNode } from "react";
 import { Avatar, Box, Divider, Typography, DialogTitle } from "@mui/material";
 import { PriorityHigh } from "@mui/icons-material";
 
+//// => Elemento para o componente Modal
+
+
 interface ModalTitleProps {
     title?: string;
     subtitle?: string | undefined;

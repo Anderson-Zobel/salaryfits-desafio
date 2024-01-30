@@ -1,5 +1,8 @@
 import React, { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 
+//// => Gerenciador(Context) de estado global, adicionado com uma funcionalidade importante, porém limitada,
+//// a função compartilhada por esse Context serve de gatilho para ativer Modais em diferentes camadas.
+
 interface TriggerProps {
     propString?: string;
     propNumber?: number;

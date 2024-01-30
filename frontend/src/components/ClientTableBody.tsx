@@ -13,6 +13,10 @@ import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
 import { ClientTableBodyProps, ClientsProps} from "../types/types";
 import MasksFilter from '../shared/MasksFilter'
 
+//// => TableHead e TableBody, acabam por ocupar um consideravel espaço quando chamados, então para cada tabela renderizada é feito um Head e um Body
+
+
+
 const ClientTableBody: React.FC<ClientTableBodyProps> = ({
      setSelectedClient,
      setOpenDetail,

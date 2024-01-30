@@ -11,6 +11,8 @@ import logo from '/dog_cat_pixel.png'
 import Button, { ButtonProps } from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom';
 
+//// => Barra de Navegação, comtempla também a adaptação do menu para o mobile.
+
 
 const StyledAppBar = styled(AppBar)({
     background: "#8AA9C1",

@@ -5,6 +5,9 @@ import {
     TableRow,
 } from "@mui/material";
 
+//// => TableHead e TableBody, acabam por ocupar um consideravel espaço quando chamados, então para cada tabela renderizada é feito um Head e um Body
+
+
 const SchedulingTableHead: React.FC = () => {
     return (
         <TableHead>

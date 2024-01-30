@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { GlobalProvider } from "./contexts/GlobalContext";
 import { SnackbarProvider } from 'notistack'
 
+//// => SnackbarProvider === toast
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -23,6 +23,8 @@ import { useNavigate } from 'react-router-dom';
 import { PetsProps, PetCreateProps, PetUpdateProps, ClientsProps } from "../../types/types"
 import {useSnackbar} from "notistack";
 
+//// => Camada de Pets, existe uma dependência da camada de Client
+
 
 const Clients: React.FC = () => {
     const navigate = useNavigate()
@@ -53,6 +55,8 @@ const Clients: React.FC = () => {
     const [filter, setFilter] = useState({
         search: ""
     })
+
+//// => Utilizo a função com async, não utilizando a convenção para arrow Function, ao ver que começa com async facilitta saber que é uma requisição.
 
     async function fetchClientsData() {
         try {

@@ -13,6 +13,10 @@ import {Delete, ManageSearch, MoreVert, PublishedWithChanges} from "@mui/icons-m
 import { SchedulingProps, SchedulingTableBodyProps } from "../types/types";
 import moment from "moment";
 
+//// => Lembrando que os TableBody tem uma camada com grau de lógica, visto que abrangem os menus e informações de atenção
+
+
+
 const ClientTableBody: React.FC<SchedulingTableBodyProps> = ({
       setSelectedScheduling,
       setOpenDetail,

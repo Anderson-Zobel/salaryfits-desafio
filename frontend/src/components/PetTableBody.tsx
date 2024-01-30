@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { Delete, ManageSearch, MoreVert } from "@mui/icons-material";
 import { PetsProps, PetTableBodyProps } from "../types/types";
 
+//// => TableHead e TableBody, acabam por ocupar um consideravel espaço quando chamados, então para cada tabela renderizada é feito um Head e um Body
+
 const ClientTableBody: React.FC<PetTableBodyProps> = ({
          setSelectedPet,
          setOpenDetail,
