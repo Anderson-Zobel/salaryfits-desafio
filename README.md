@@ -29,6 +29,7 @@
 </a>
 
 
+
 ### Legendas, comando importante para rodar o projeto:
 #### 🟢 === Essencial para o funcionamneto
 #### 🔵 === Não essencial para o funcionamento
@@ -37,6 +38,21 @@
 ### Requisitos:
  - Node.js (v14.x ou superior)
  - npm (v6.x ou superior)
+
+## Copiando o repositório
+### 🟢 Copie a url SSH
+
+![image](https://github.com/Anderson-Zobel/salaryfits-desafio/assets/87586643/be084f61-f8b4-4487-be71-61130deb98c1)
+
+### 🟢 Abra o terminal onde preferir, digite:
+ ```
+git clone git@github.com:Anderson-Zobel/salaryfits-desafio.git 
+ ```
+![image](https://github.com/Anderson-Zobel/salaryfits-desafio/assets/87586643/7da3cefe-ccf5-4efa-a845-e7b2501d65d0)
+
+Aguarde e o projeto estará no seu dispositivo
+
+
 
 ## Backend
 ### 🟢 Acesse a pasta /backend para executar os comandos
