@@ -78,15 +78,15 @@ npm run test
 npm install
 ```
 
-### 🟢 npm run dev
+### 🟢 Iniciar o Front-end
 Para rodar a aplicação e fazer os devidos testes, como lembrando, mantenha o back-end ativo
 ```
 npm run dev
 ```
 
-### 🔵 npm run build
+### 🔵 Buildar a aplicaçao
 Para fazer a build e ver que não há erros no TypeScript
 ```
-npm run dev
+npm run build
 ```
 
