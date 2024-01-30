@@ -73,7 +73,7 @@ npm test
 ## Front-end
 ### 🟢 Acesse a pasta /frontend para executar os comandos
 
-### 🟢 Instale as dependênciuas:
+### 🟢 Instale as dependências:
 ```
 npm install
 ```
