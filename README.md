@@ -84,7 +84,7 @@ Para rodar a aplicação e fazer os devidos testes, como lembrando, mantenha o b
 npm run dev
 ```
 
-### 🟢 npm run build
+### 🔵 npm run build
 Para fazer a build e ver que não há erros no TypeScript
 ```
 npm run dev
