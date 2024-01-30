@@ -28,9 +28,9 @@
  - npm (v6.x ou superior)
 
 ## Backend
-### Acesse a pasta /backend para executar os comandos
+### 🟢 Acesse a pasta /backend para executar os comandos
 
-### Instale as dependênciuas:
+### 🟢 Instale as dependências:
 ```
 npm install
 ```
@@ -39,49 +39,52 @@ npm install
 npx prisma init --studio
 ```
 
-### Gerando o Prisma Client
+### 🟢 Gerando o Prisma Client
 ```
 npx prisma generate
 ```
 
-### Rode as migrations
+### 🟢 Rode as migrations
 ```
 npx prisma migrate dev
 ```
 
-### Rode o backend dentro da pasta
-Mantenha ele em um terminal rodando, necessário para utilizar o front-end
+### 🟢 Rode o backend dentro da pasta
+Mantenha ele em um terminal rodando, necessário para utilizar a aplicação
 ```
 npm run dev
 ```
 
-### Prisma Studio - Banco de Dados
+### 🔵 Prisma Studio - Banco de Dados
 Caso queira acessar o banco de dados pelo Prisma Studio
 ```
 npx prisma studio
 ```
 
-### Testes com Jest
+### 🔵 Testes com Jest
 Para rodar a cobertura de testes
 ```
-npm run coverage
+npm test:coverage
+```
+```
+npm test
 ```
 
 ## Front-end
-### Acesse a pasta /frontend para executar os comandos
+### 🟢 Acesse a pasta /frontend para executar os comandos
 
-### Instale as dependênciuas:
+### 🟢 Instale as dependênciuas:
 ```
 npm install
 ```
 
-### Npm run dev
+### 🟢 npm run dev
 Para rodar a aplicação e fazer os devidos testes, como lembrando, mantenha o back-end ativo
 ```
 npm run dev
 ```
 
-### Npm run build
+### 🟢 npm run build
 Para fazer a build e ver que não há erros no TypeScript
 ```
 npm run dev
