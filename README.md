@@ -16,11 +16,11 @@
    <img align="center" alt="HTML" width="45" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />&nbsp;&nbsp;
    <img align="center" alt="CSS" width="45"  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />&nbsp;&nbsp;
  </div>
-
+ 
 
 
  # Instruções
-<a href="https:/youtube.com/watch?v=HSXkzJf8FO" target="_blank" style="text-decoration: none" mt="1rem">
+<a href="https:/youtu.be/HSXkzJf8FOc" target="_blank" style="text-decoration: none" mt="1rem">
  <img 
   align="center" 
   alt="YOUTUBE" 
